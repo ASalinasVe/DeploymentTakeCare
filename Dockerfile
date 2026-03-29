@@ -1,15 +1,22 @@
-# Usamos una imagen ligera de Java 17 (o la versión que uses)
-FROM eclipse-temurin:17-jdk-alpine
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 
-# Definimos el directorio de trabajo
 WORKDIR /app
 
-# Copiamos el archivo .jar que generaste con Maven
-# Asegúrate de que el nombre coincida con el que tienes en la carpeta target
-COPY target/*.jar app.jar
+COPY pom.xml .
+COPY .mvn .mvn
+COPY mvnw .
+COPY mvnw.cmd .
+COPY src src
 
-# Exponemos el puerto que usa Spring Boot
+RUN chmod +x mvnw
+RUN ./mvnw clean package -DskipTests
+
+FROM eclipse-temurin:17-jre-alpine
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "app.jar"]
