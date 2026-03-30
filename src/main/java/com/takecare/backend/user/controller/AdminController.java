@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.takecare.backend.user.dto.VerifyUserRequest;
 import com.takecare.backend.user.dto.VerifyUserResponse;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.takecare.backend.user.model.Patient;
 import com.takecare.backend.user.model.Specialist;
@@ -30,8 +29,6 @@ import com.takecare.backend.user.service.SpecialistService;
 import com.takecare.backend.user.service.UserVerificationService;
 
 import jakarta.validation.Valid;
-
-import java.util.List;
 
 
 
