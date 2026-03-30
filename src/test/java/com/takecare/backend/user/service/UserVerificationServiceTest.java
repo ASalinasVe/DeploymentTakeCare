@@ -1,22 +1,26 @@
 package com.takecare.backend.user.service;
 
-import com.takecare.backend.user.dto.VerifyUserRequest;
-import com.takecare.backend.user.dto.VerifyUserResponse;
-import com.takecare.backend.user.model.User;
-import com.takecare.backend.user.repository.UserRepository;
+import java.time.LocalDate;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import com.takecare.backend.user.dto.VerifyUserRequest;
+import com.takecare.backend.user.dto.VerifyUserResponse;
+import com.takecare.backend.user.model.User;
+import com.takecare.backend.user.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 class UserVerificationServiceTest {
@@ -41,8 +45,6 @@ class UserVerificationServiceTest {
         mockUser.setAccountVerified(0); // 0 = not verified
         mockUser.setRole(1);
     }
-
-    // ── Happy path ────────────────────────────────────────────────────────────
 
     @Test
     @DisplayName("HU06 – Verificación exitosa con CI correcta")
@@ -76,8 +78,6 @@ class UserVerificationServiceTest {
         assertThat(mockUser.getCiDocumentImg()).isEqualTo("base64encodedimage==");
         verify(userRepository).save(mockUser);
     }
-
-    // ── Failure cases ─────────────────────────────────────────────────────────
 
     @Test
     @DisplayName("HU06 – Usuario no encontrado lanza RuntimeException")

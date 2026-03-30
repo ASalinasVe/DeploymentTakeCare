@@ -57,9 +57,9 @@ public class UserVerificationService {
                 user.getNames(),
                 user.getFirstLastname(),
                 user.getEmail(),
-                user.getAccountVerified() == 1, // Convert Integer to Boolean: 1 = true (verified)
+                user.getAccountVerified() == 1,
                 user.getLastUpdate(),
                 "Usuario verificado exitosamente"
         );
-    }
-}
+    };
+};
