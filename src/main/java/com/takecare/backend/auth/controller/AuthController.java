@@ -17,7 +17,6 @@ import com.takecare.backend.auth.DTO.LoginResponseDTO;
 import com.takecare.backend.auth.service.AuthService;
 import com.takecare.backend.auth.service.PasswordRecoveryService;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
