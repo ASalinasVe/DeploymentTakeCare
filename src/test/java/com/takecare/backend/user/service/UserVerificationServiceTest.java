@@ -38,7 +38,7 @@ class UserVerificationServiceTest {
         mockUser.setEmail("juan@example.com");
         mockUser.setCiNumber("12345678");
         mockUser.setBirthDate(LocalDate.of(1990, 5, 20));
-        mockUser.setAccountVerified(false);
+        mockUser.setAccountVerified(0); // 0 = not verified
         mockUser.setRole(1);
     }
 
@@ -120,6 +120,6 @@ class UserVerificationServiceTest {
         assertThatThrownBy(() -> userVerificationService.verifyUser(1, request))
                 .isInstanceOf(RuntimeException.class);
 
-        assertThat(mockUser.getAccountVerified()).isFalse();
+        assertThat(mockUser.getAccountVerified()).isEqualTo(0);
     }
 }
