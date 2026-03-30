@@ -31,8 +31,6 @@ import com.takecare.backend.user.service.UserVerificationService;
 import jakarta.validation.Valid;
 
 
-
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/admin")
 public class AdminController {
