@@ -1,0 +1,10 @@
+2026-04-04 07:52:01 [restartedMain] INFO  c.t.backend.TakeCareApplication - Starting TakeCareApplication using Java 25.0.2 with PID 36784 (C:\Users\ISABELLA\DeploymentTakeCare\target\classes started by ISABELLA in C:\Users\ISABELLA\DeploymentTakeCare)
+2026-04-04 07:52:01 [restartedMain] INFO  c.t.backend.TakeCareApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-04 07:52:17 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-04 07:52:17 [restartedMain] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 30b1b27e-33f6-4a47-bf7e-4d806d5f0112
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-04 07:52:18 [restartedMain] INFO  c.t.backend.TakeCareApplication - Started TakeCareApplication in 16.902 seconds (process running for 908.375)
