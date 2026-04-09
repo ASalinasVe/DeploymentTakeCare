@@ -1,15 +1,12 @@
 package com.takecare.backend.user.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.takecare.backend.user.dto.VerifyUserRequest;
 import com.takecare.backend.user.dto.VerifyUserResponse;
-
 import com.takecare.backend.user.model.Patient;
 import com.takecare.backend.user.model.Specialist;
 import com.takecare.backend.user.model.User;
@@ -98,6 +94,43 @@ public class AdminController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/specialists/{id}/validate/approve")
+    public ResponseEntity<Specialist> approveSpecialist(
+            @PathVariable Integer id
+    ) {
+        logger.info("PUT /api/v1/admin/specialists/{}/validate/approve - approving specialist", id);
+
+        return specialistService.validateSpecialist(id, true)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/specialists/{id}/validate/reject")
+    public ResponseEntity<Specialist> rejectSpecialist(
+            @PathVariable Integer id
+    ) {
+        logger.info("PUT /api/v1/admin/specialists/{}/validate/reject - rejecting specialist", id);
+
+        return specialistService.validateSpecialist(id, false)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/users/{id}/suspend")
+    public ResponseEntity<User> suspendUser(
+            @PathVariable Integer id
+    ) {
+        logger.info("PUT /api/v1/admin/users/{}/suspend - suspending user", id);
+
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setStatus(0);
+                    user.setLastUpdate(LocalDateTime.now());
+                    return ResponseEntity.ok(userRepository.save(user));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/users/{id}/verify")

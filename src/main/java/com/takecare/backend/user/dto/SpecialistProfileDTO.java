@@ -1,18 +1,20 @@
 package com.takecare.backend.user.dto;
 
+import java.math.BigDecimal;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class PatientProfileDTO {
+public class SpecialistProfileDTO {
 
     private Integer id;
     private String names;
     private String firstLastname;
     private String secondLastname;
-    private String ciNumber;
+    private String officeUbi;
+    private BigDecimal sessionCost;
     private String email;
-    private String clinicalHistory;
-    private Integer accountVerified;
+    private String biography;
 }
