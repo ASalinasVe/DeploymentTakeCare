@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
@@ -16,15 +16,17 @@ public class SpecialistSchedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "specialist_id", nullable = false)
     private Specialist specialist;
 
-    @Enumerated(EnumType.STRING)
+    @Column(name = "schedule_date", nullable = false)
+    private LocalDate scheduleDate;
+
     @Column(name = "day_of_week", nullable = false)
-    private DayOfWeek dayOfWeek;
+    private Byte dayOfWeek;
 
     @Column(name = "start_time", nullable = false)
     private LocalTime startTime;
@@ -32,6 +34,6 @@ public class SpecialistSchedule {
     @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
 
-    @Column(nullable = false)
-    private boolean available = true;
+    @Column(name = "status")
+    private Byte status = 0; //0 disponible, 1 no disponible
 }
