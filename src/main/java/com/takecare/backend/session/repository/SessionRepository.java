@@ -2,6 +2,7 @@ package com.takecare.backend.session.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -54,5 +55,42 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
     Optional<Session> findByIdAndPatientId(
             @Param("sessionId") Integer sessionId,
             @Param("patientId") Integer patientId
- );
+    );
+
+        @Query("""
+        select s
+        from Session s
+        join fetch s.schedule sc
+        join fetch sc.specialist sp
+        join fetch s.patient p
+        where s.status = :status
+        """)
+        List<Session> findByStatus(@Param("status") Integer status);
+        
+        @Query("""
+        select s
+        from Session s
+        join fetch s.schedule sc
+        join fetch sc.specialist sp
+        join fetch s.patient p
+        where s.id = :sessionId
+        """)
+        Optional<Session> findByIdWithDetails(@Param("sessionId") Integer sessionId);
+
+    @Query("""
+            select s
+            from Session s
+            join fetch s.schedule sc
+            join fetch sc.specialist sp
+            join fetch s.patient p
+            where (:status is null or s.status = :status)
+              and (:fromDate is null or sc.scheduleDate >= :fromDate)
+              and (:toDate is null or sc.scheduleDate <= :toDate)
+            order by sc.scheduleDate desc, sc.startTime desc, s.createdDate desc
+            """)
+    List<Session> findForAdminHistory(
+            @Param("status") Integer status,
+            @Param("fromDate") LocalDate fromDate,
+            @Param("toDate") LocalDate toDate
+    );
 }

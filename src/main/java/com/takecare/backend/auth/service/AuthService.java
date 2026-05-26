@@ -19,11 +19,10 @@ public class AuthService {
     }
 
     /**
-     * Autentica un usuario con email y password
      * @param email - email del usuario
      * @param password - contraseña en texto plano
      * @return LoginResponseDTO con datos del usuario si es exitoso
-     * @throws RuntimeException si las credenciales son incorrectas
+     * @throws RuntimeException si las credenciales son incorrectas o la cuenta no está verificada
      */
     public LoginResponseDTO login(String email, String password) {
         User user = userRepository.findByEmail(email)
@@ -34,14 +33,28 @@ public class AuthService {
         }
 
         if (user.getStatus() == null || user.getStatus() != 1) {
-            throw new RuntimeException("Cuenta inactiva");
+            throw new RuntimeException("Cuenta suspendida");
+        }
+
+        // Validar estado de verificación de cuenta
+        if (user.getAccountVerified() == null) {
+            user.setAccountVerified((byte) 2); // Por defecto pendiente si es null
+        }
+
+        if (user.getAccountVerified() == 2) {
+            throw new RuntimeException("Cuenta pendiente de aprobación");
+        }
+
+        if (user.getAccountVerified() == 0) {
+            throw new RuntimeException("Cuenta rechazada");
         }
 
         return new LoginResponseDTO(
                 user.getId(),
                 user.getNames(),
                 user.getEmail(),
-                user.getRole()
+                user.getRole(),
+                user.getAccountVerified()
         );
     }
 }
